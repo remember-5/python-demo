@@ -1,7 +1,12 @@
 import requests
 
 
-def run(url):
+def get_play_url(url):
+    """
+    获取无水印视频地址
+    :param url: 分享的url
+    :return: 视频地址
+    """
     rep = requests.get(url=url, allow_redirects=False)
     # 获取视频的绝对地址
     video_url = rep.headers['location']
@@ -16,6 +21,29 @@ def run(url):
     return play_url
 
 
+def download(url):
+    hd = {
+        'authority': 'aweme.snssdk.com',
+        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
+    }
+    rep = requests.get(url=url, headers=hd, allow_redirects=False)
+    # 获取视频的绝对地址
+    video_url = rep.headers['location']
+
+    print("开始下载")
+    r = requests.get(video_url, stream=True)
+
+    with open('test.mp4', "wb") as mp4:
+        for chunk in r.iter_content(chunk_size=1024 * 1024):
+            if chunk:
+                mp4.write(chunk)
+
+    print("下载结束")
+
+    pass
+
+
 if __name__ == '__main__':
     base_url = "https://v.douyin.com/J6CtsL7"
-    run(base_url)
+    play_url = get_play_url(base_url)
+    download(play_url)
