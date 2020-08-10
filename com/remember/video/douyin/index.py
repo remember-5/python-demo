@@ -66,5 +66,7 @@ class DouYinCrawler:
 
 
 if __name__ == '__main__':
-    base_url = "https://v.douyin.com/J6CtsL7"
-    DouYinCrawler(base_url)
+    for line in open('url.txt', 'r').readlines():
+        line = line.strip('\n')  # 去掉换行符
+        print(line)
+        DouYinCrawler(line)
