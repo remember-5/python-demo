@@ -1,4 +1,5 @@
 import os
+import time
 
 import requests
 from urllib import parse
@@ -89,8 +90,13 @@ class DouYinCrawler:
         print()
         post_url = user_post.format(sec_uid, 100, 0, 1128, _signature)
         print(post_url)
-        post_data = requests.get(post_url).json()
-        print(post_data)
+        while True:
+            post_data = requests.get(post_url, headers=hd).json()
+            print(post_data)
+            time.sleep(1)
+            if len(post_data['aweme_list']) > 0:
+                break
+
         return
 
 
