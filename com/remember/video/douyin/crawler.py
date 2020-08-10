@@ -7,6 +7,7 @@ from browsermobproxy import Server
 if __name__ == '__main__':
 
     # 演示一下使用proxy抓network
+    # https://github.com/lightbody/browsermob-proxy
     # 配置browsermob-proxy
     server = Server(r'/Users/wangjiahao/server/soft/browsermob-proxy-2.1.4/bin/browsermob-proxy')
     server.start()

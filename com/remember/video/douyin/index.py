@@ -7,7 +7,7 @@ base_url = "https://www.iesdouyin.com/web/api/v2"
 ies_url = base_url + "/aweme/iteminfo/?item_ids={}&dytk="
 user_post = base_url + "/aweme/post/?sec_uid={}&count={}&max_cursor={}&aid={}&_signature={}"
 user_like = base_url + "/aweme/like/?sec_uid={}&count={}&max_cursor={}&aid={}}&_signature={}&dytk={}"
-get_user_info_url = base_url + "/user/info/?sec_uid={}"
+user_info_url = base_url + "/user/info/?sec_uid={}"
 hd = {
     'authority': 'aweme.snssdk.com',
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, '
@@ -78,10 +78,19 @@ class DouYinCrawler:
         user_url = requests.get(url=self.user, headers=hd, allow_redirects=False).headers['location']
         params = parse.parse_qs(parse.urlparse(user_url).query)
         sec_uid = params['sec_uid'][0]
+        user_info = requests.get(user_info_url.format(sec_uid)).json()
+        uid = user_info['user_info']['uid']
+        print(uid)
+
+
         # sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=100&max_cursor=0&aid=1128&_signature=yhCqeQAAlSoSNMELX8MxC8oQqm&dytk=
-        # p = os.popen('node my.js %s' % value)
-        # return p.readlines()[0]
-        # user_post.format(sec_uid, 100, 0, 1128, )
+        p = os.popen('node my.js %s' % uid)
+        _signature = p.readlines()[0]
+        print()
+        post_url = user_post.format(sec_uid, 100, 0, 1128, _signature)
+        print(post_url)
+        post_data = requests.get(post_url).json()
+        print(post_data)
         return
 
 
