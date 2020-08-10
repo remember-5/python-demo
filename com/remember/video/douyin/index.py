@@ -1,3 +1,5 @@
+import os
+
 import requests
 from urllib import parse
 
@@ -74,9 +76,11 @@ class DouYinCrawler:
         :return:
         """
         user_url = requests.get(url=self.user, headers=hd, allow_redirects=False).headers['location']
-        # params = parse.parse_qs(parse.urlparse(user_url).query)
-        # sec_uid = params['sec_uid'][0]
-        # # sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=100&max_cursor=0&aid=1128&_signature=yhCqeQAAlSoSNMELX8MxC8oQqm&dytk=
+        params = parse.parse_qs(parse.urlparse(user_url).query)
+        sec_uid = params['sec_uid'][0]
+        # sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=100&max_cursor=0&aid=1128&_signature=yhCqeQAAlSoSNMELX8MxC8oQqm&dytk=
+        # p = os.popen('node my.js %s' % value)
+        # return p.readlines()[0]
         # user_post.format(sec_uid, 100, 0, 1128, )
         return
 
