@@ -1,6 +1,11 @@
 import requests
+from urllib import parse
 
-ies_url = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={}&dytk="
+base_url = "https://www.iesdouyin.com/web/api/v2"
+ies_url = base_url + "/aweme/iteminfo/?item_ids={}&dytk="
+user_post = base_url + "/aweme/post/?sec_uid={}&count={}&max_cursor={}&aid={}&_signature={}"
+user_like = base_url + "/aweme/like/?sec_uid={}&count={}&max_cursor={}&aid={}}&_signature={}&dytk={}"
+get_user_info_url = base_url + "/user/info/?sec_uid={}"
 hd = {
     'authority': 'aweme.snssdk.com',
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, '
@@ -9,29 +14,29 @@ hd = {
 
 
 class DouYinCrawler:
-    def __init__(self, url=None):
+    def __init__(self, url=None, user=None):
         """
         init
-        :param url: 需要爬取的url 如https://v.douyin.com/J6CtsL7
+        :param url: 需要爬取的url
         """
-        if url is None:
-            print("空地址！！！")
+        if url is None and user is None:
+            print("地址和用户均为空，无法爬取！！！")
             return
-        self.url = url
-        self.video_id = None
-        self.get_play_url()
+        if user is None:
+            self.url = url
+            self.video_id = None
+            self.get_play_url()
+        else:
+            self.user = user
+            self.get_video_by_user()
 
     def get_play_url(self):
         """
         获取无水印视频地址
         :return: 视频地址
         """
-
-        # 先请求一次地址
-        rep = requests.get(url=self.url, allow_redirects=False)
-
-        # 在header中，能拿到视频有水印的视频地址
-        watermark_url = rep.headers['location']
+        # 先请求一次地址,在header中，能拿到视频有水印的视频地址
+        watermark_url = requests.get(url=self.url, allow_redirects=False).headers['location']
         print("watermark_url=", watermark_url)
 
         # 从url中取出视频的id
@@ -50,9 +55,8 @@ class DouYinCrawler:
         :param url: 无水印播放地址
         :return:
         """
-        rep = requests.get(url=url, headers=hd, allow_redirects=False)
         # 获取视频的绝对地址
-        video_url = rep.headers['location']
+        video_url = requests.get(url=url, headers=hd, allow_redirects=False).headers['location']
 
         print("开始下载")
         r = requests.get(video_url, stream=True)
@@ -64,9 +68,29 @@ class DouYinCrawler:
 
         print("下载结束")
 
+    def get_video_by_user(self):
+        """
+        根据用户爬视频
+        :return:
+        """
+        user_url = requests.get(url=self.user, headers=hd, allow_redirects=False).headers['location']
+        # params = parse.parse_qs(parse.urlparse(user_url).query)
+        # sec_uid = params['sec_uid'][0]
+        # # sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=100&max_cursor=0&aid=1128&_signature=yhCqeQAAlSoSNMELX8MxC8oQqm&dytk=
+        # user_post.format(sec_uid, 100, 0, 1128, )
+        return
+
 
 if __name__ == '__main__':
-    for line in open('url.txt', 'r').readlines():
+
+    # 批量下载视频
+    # for line in open('url.txt', 'r').readlines():
+    #     line = line.strip('\n')  # 去掉换行符
+    #     print(line)
+    #     DouYinCrawler(url=line)
+
+    # 根据用户下载视频
+    for line in open('user.txt', 'r').readlines():
         line = line.strip('\n')  # 去掉换行符
         print(line)
-        DouYinCrawler(line)
+        DouYinCrawler(user=line)

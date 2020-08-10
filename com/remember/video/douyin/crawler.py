@@ -17,12 +17,7 @@ if __name__ == '__main__':
     chrome_options.add_argument('--proxy-server={0}'.format(proxy.proxy))
     driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    base_url = "https://v.douyin.com/J6CtsL7/"
-    rep = requests.get(url=base_url, allow_redirects=False)
-    # 获取视频的绝对地址
-    video_url = rep.headers['location']
-    print(video_url)
-
+    video_url = "https://www.iesdouyin.com/share/user/3927074991252420?sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&u_code=h620e5ii&app=aweme&utm_campaign=client_share&utm_medium=ios&tt_from=copy&utm_source=copy"
     proxy.new_har("douyin", options={'captureHeaders': True, 'captureContent': True})
     driver.get(video_url)
 
