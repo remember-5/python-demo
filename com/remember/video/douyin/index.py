@@ -104,6 +104,7 @@ class DouYinCrawler:
             print("下载结束")
         else:
             print("文件已经存在")
+
     def get_video_by_user(self):
         """
         根据用户爬视频
@@ -120,7 +121,7 @@ class DouYinCrawler:
         p = os.popen('node fuck-byted-acrawler.js %s' % uid)
         _signature = p.readlines()[0].replace("\n", "")
 
-        post_url = user_post.format(sec_uid, 9, 0, 1128, _signature, "")
+        post_url = user_post.format(sec_uid, 100, 0, 1128, _signature, "")
         print(post_url)
 
         post_data = ""
@@ -139,6 +140,7 @@ class DouYinCrawler:
             url = x['video']['play_addr']['url_list'][0]
             self.download(url, video_id)
         return
+
 
 if __name__ == '__main__':
 
