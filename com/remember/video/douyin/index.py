@@ -17,8 +17,12 @@ ies_url = base_url + "/aweme/iteminfo/?item_ids={}&dytk="
 user_post = base_url + "/aweme/post/?sec_uid={}&count={}&max_cursor={}&aid={}&_signature={}"
 user_like = base_url + "/aweme/like/?sec_uid={}&count={}&max_cursor={}&aid={}}&_signature={}&dytk={}"
 user_info_url = base_url + "/user/info/?sec_uid={}"
-challenge_url = "https://www.iesdouyin.com/web/api/v2/challenge/aweme/?ch_id=1580070240994382&count=9&cursor=0&aid=1128&screen_limit=3&download_click_limit=0&_signature=sf404AAA7tpp2l-S4uJVHLH-NP"
+
+challenge_url = base_url + "/challenge/aweme/"
 challenge_info_url = base_url + "/challenge/info/"
+
+music_url = base_url + "/music/list/aweme/"
+music_info_url = base_url + "/music/info/"
 
 hd = {
     'authority': 'aweme.snssdk.com',
@@ -27,6 +31,9 @@ hd = {
 }
 
 THREADS = 2
+
+PAGE_NUM = 2
+
 pool = ThreadPoolExecutor(10)
 # HEADERS = {
 #     'authority': 'aweme.snssdk.com',
@@ -161,10 +168,10 @@ class DouYinCrawler:
         #     self.download_share_videos(url)
         # for url in self.numbers:
         #     self.download_user_videos(url)
-        for url in self.challenges:
-            self.download_challenge_videos(url)
-        # for url in self.musics:
-        #     self.download_music_videos(url)
+        # for url in self.challenges:
+        #     self.download_challenge_videos(url)
+        for url in self.musics:
+            self.download_music_videos(url)
         return
 
     def download_share_videos(self, url):
@@ -235,7 +242,7 @@ class DouYinCrawler:
         data = requests.get(url=challenge_url, params={
             "ch_id": str(challenge_id),
             "count": _count,
-            "cursor": 0,
+            "cursor": _count + PAGE_NUM,
             "aid": 1128,
             "screen_limit": 3,
             "download_click_limit": 0,
@@ -246,8 +253,32 @@ class DouYinCrawler:
             download(x['video']['play_addr']['url_list'][0], video_id)
 
         if _count <= user_count:
-            _count += 100
+            _count += PAGE_NUM
             self.download_challenge_videos(url=url, _count=_count)
+
+    def download_music_videos(self, url, _count=9):
+        music_id = url.split("?")[0].split("/")[-1]
+        music_info = requests.get(url=music_info_url, params={
+            "music_id": str(music_id)
+        }).json()
+
+        data = requests.get(url=music_url, params={
+            "music_id": str(music_id),
+            "count": _count,
+            "cursor": _count + PAGE_NUM,
+            "aid": 1128,
+            "screen_limit": 3,
+            "download_click_limit": 0,
+            "_signature": generate_signature(str(music_id))
+        }).json()
+
+        for x in data['aweme_list']:
+            video_id = x['aweme_id']
+            download(x['video']['play_addr']['url_list'][0], video_id)
+
+        if data['has_more']:
+            _count += PAGE_NUM
+            self.download_music_videos(url=url, _count=_count)
 
 
 if __name__ == '__main__':
