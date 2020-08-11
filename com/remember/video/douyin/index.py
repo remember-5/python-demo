@@ -1,3 +1,4 @@
+import json
 import os
 import time
 
@@ -12,9 +13,29 @@ user_info_url = base_url + "/user/info/?sec_uid={}"
 hd = {
     'authority': 'aweme.snssdk.com',
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, '
-                  'like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 '
+                  'like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1'
 }
 
+# HEADERS = {
+#     'authority': 'aweme.snssdk.com',
+#     'connection': 'keep-alive',
+#     'accept-encoding': 'gzip, deflate, br',
+#     'accept-language': 'zh-CN,zh;q=0.9',
+#     'pragma': 'no-cache',
+#     'cache-control': 'no-cache',
+#     'upgrade-insecure-requests': '1',
+#     'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) '
+#                   'Version/13.0.3 Mobile/15E148 Safari/604.1'
+# }
+
+HEADERS = {
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'zh-CN,zh;q=0.9',
+    'pragma': 'no-cache',
+    'cache-control': 'no-cache',
+    'upgrade-insecure-requests': '1',
+    'user-agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
+}
 
 class DouYinCrawler:
     def __init__(self, url=None, user=None):
@@ -44,27 +65,28 @@ class DouYinCrawler:
 
         # 从url中取出视频的id
         video_id = watermark_url.split("/?")[0].split("/")[-1]
-        self.video_id = video_id
 
         # IES(Information Exchange Service 信息交流处) 视频地址
         data = requests.get(ies_url.format(video_id)).json()
         play_url = data['item_list'][0]['video']['play_addr']['url_list'][0].replace('playwm', "play")
-        print(play_url)
-        self.download(play_url)
+        print("play_url", play_url)
+        video_url = requests.get(url=play_url, headers=hd, allow_redirects=False).headers['location']
+        print("video_url", video_url)
+        self.download(video_url, video_id)
 
-    def download(self, url):
+    @staticmethod
+    def download(url=None, video_id=None):
         """
         下载视频
         :param url: 无水印播放地址
+        :param video_id: video id
         :return:
         """
         # 获取视频的绝对地址
-        video_url = requests.get(url=url, headers=hd, allow_redirects=False).headers['location']
-
         print("开始下载")
-        r = requests.get(video_url, stream=True)
+        r = requests.get(url, stream=True)
 
-        with open('{}.mp4'.format(self.video_id), "wb") as mp4:
+        with open('{}.mp4'.format(video_id), "wb") as mp4:
             for chunk in r.iter_content(chunk_size=1024 * 1024):
                 if chunk:
                     mp4.write(chunk)
@@ -83,24 +105,28 @@ class DouYinCrawler:
         uid = user_info['user_info']['uid']
         print(uid)
 
-
         # sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=100&max_cursor=0&aid=1128&_signature=yhCqeQAAlSoSNMELX8MxC8oQqm&dytk=
-        p = os.popen('node my.js %s' % uid)
-        _signature = p.readlines()[0]
-        print()
-        post_url = user_post.format(sec_uid, 100, 0, 1128, _signature)
+        # p = os.popen('node my.js %s' % uid)
+        p = os.popen('node fuck-byted-acrawler.js %s' % uid)
+        _signature = p.readlines()[0].replace("\n", "")
+
+        post_url = user_post.format(sec_uid, 9, 0, 1128, _signature, "")
         print(post_url)
         while True:
-            post_data = requests.get(post_url, headers=hd).json()
-            print(post_data)
-            time.sleep(1)
-            if len(post_data['aweme_list']) > 0:
-                break
-
+            post_data = requests.get(post_url, allow_redirects=False)
+            post_data.encoding = 'utf-8'
+            print(post_data.text)
+            time.sleep(3)
+            # if len(post_data['aweme_list']) > 0:
+            #     breakhttps://www.iesdouyin.com/web/api/v2/aweme/post/?sec_uid=MS4wLjABAAAA_yPZkOcy2p9ZQW-7ZxsJY1iR2nSSR0zJXivrTlwQI18tjeoAq5E-wmr8s_Iagwsu&count=9&max_cursor=0&aid=1128&_signature=wVkCrAAAnnQ-pv1TxkjGKcFZAr
+        # for x in post_url['aweme_list']:
+        #     url = x['video']['play_addr']['url_list'][0]
         return
 
 
 if __name__ == '__main__':
+
+    # DouYinCrawler(url="https://v.douyin.com/J6GmXWL/")
 
     # 批量下载视频
     # for line in open('url.txt', 'r').readlines():
