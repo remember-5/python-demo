@@ -260,11 +260,13 @@ class DouYinCrawler:
 
         # 总数量
         user_count = challenge_info['ch_info']['user_count']
-
+        cursor = 0
+        if _count != 9:
+            cursor = _count + PAGE_NUM
         data = requests.get(url=challenge_url, params={
             "ch_id": str(challenge_id),
             "count": _count,
-            "cursor": _count + PAGE_NUM,
+            "cursor": cursor,
             "aid": 1128,
             "screen_limit": 3,
             "download_click_limit": 0,
@@ -289,11 +291,13 @@ class DouYinCrawler:
         music_info = requests.get(url=music_info_url, params={
             "music_id": str(music_id)
         }).json()
-
+        cursor = 0
+        if _count != 9:
+            cursor = _count + PAGE_NUM
         data = requests.get(url=music_url, params={
             "music_id": str(music_id),
             "count": _count,
-            "cursor": _count + PAGE_NUM,
+            "cursor": cursor,
             "aid": 1128,
             "screen_limit": 3,
             "download_click_limit": 0,
