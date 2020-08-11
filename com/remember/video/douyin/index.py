@@ -55,7 +55,8 @@ HEADERS = {
     'accept': 'application/json',
     'cache-control': 'no-cache',
     'upgrade-insecure-requests': '1',
-    'user-agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
+    'user-agent': "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) "
+                  "Version/11.0 Mobile/15A372 Safari/604.1",
 }
 
 
@@ -75,6 +76,11 @@ def generate_signature(uid):
 
 
 def get_real_address(url):
+    """
+    获取真实地址
+    :param url: 分享的url
+    :return: 真实地址
+    """
     if url.find('v.douyin.com') < 0:
         return url
     res = requests.get(url, headers=HEADERS, allow_redirects=False)
@@ -164,17 +170,21 @@ class DouYinCrawler:
         #     worker.daemon = True
         #     worker.start()
 
-        # for url in self.video:
-        #     self.download_share_videos(url)
-        # for url in self.numbers:
-        #     self.download_user_videos(url)
-        # for url in self.challenges:
-        #     self.download_challenge_videos(url)
+        for url in self.video:
+            self.download_share_videos(url)
+        for url in self.numbers:
+            self.download_user_videos(url)
+        for url in self.challenges:
+            self.download_challenge_videos(url)
         for url in self.musics:
             self.download_music_videos(url)
         return
 
     def download_share_videos(self, url):
+        """
+        下载用户分享视频
+        :param url: 视频地址
+        """
         # 从url中取出视频的id
         video_id = get_dy_url_id(url)
         data = requests.get(ies_url.format(video_id)).json()
@@ -210,6 +220,12 @@ class DouYinCrawler:
         self.page_download(like_url, _max_cursor)
 
     def page_download(self, url, _max_cursor):
+        """
+        分页下载
+        :param url:
+        :param _max_cursor:
+        :return:
+        """
         post_data = ''
         while True:
             post_data = json.loads(requests.get(url, allow_redirects=False).text.replace("\n", ""))
@@ -230,6 +246,12 @@ class DouYinCrawler:
             self.download_user_videos(url=url, _max_cursor=max_cursor)
 
     def download_challenge_videos(self, url, _count=9):
+        """
+        下载挑战视频
+        :param url: 视频地址
+        :param _count: 视频分页数量
+        :return:
+        """
         challenge_id = get_dy_url_id(url)
 
         challenge_info = requests.get(url=challenge_info_url, params={
@@ -257,6 +279,12 @@ class DouYinCrawler:
             self.download_challenge_videos(url=url, _count=_count)
 
     def download_music_videos(self, url, _count=9):
+        """
+        根据音乐下载
+        :param url: 地址
+        :param _count: 分页数量
+        :return:
+        """
         music_id = url.split("?")[0].split("/")[-1]
         music_info = requests.get(url=music_info_url, params={
             "music_id": str(music_id)
