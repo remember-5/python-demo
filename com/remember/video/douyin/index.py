@@ -11,17 +11,17 @@ from threading import Thread
 import requests
 from urllib import parse
 
-ies_url = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/"
+ies_url = "https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/"  # ies地址
 
-user_post = "https://www.iesdouyin.com/web/api/v2/aweme/post/"
-user_like = "https://www.iesdouyin.com/web/api/v2/aweme/like/"
-user_info_url = "https://www.iesdouyin.com/web/api/v2/user/info/"
+user_post = "https://www.iesdouyin.com/web/api/v2/aweme/post/"  # 用户作品
+user_like = "https://www.iesdouyin.com/web/api/v2/aweme/like/"  # 用户喜欢
+user_info_url = "https://www.iesdouyin.com/web/api/v2/user/info/"  # 用户详情
 
-challenge_url = "https://www.iesdouyin.com/web/api/v2/challenge/aweme/"
-challenge_info_url = "https://www.iesdouyin.com/web/api/v2/challenge/info/"
+challenge_url = "https://www.iesdouyin.com/web/api/v2/challenge/aweme/"  # 挑战地址
+challenge_info_url = "https://www.iesdouyin.com/web/api/v2/challenge/info/"  # 挑战详情
 
-music_url = "https://www.iesdouyin.com/web/api/v2/music/list/aweme/"
-music_info_url = "https://www.iesdouyin.com/web/api/v2/music/info/"
+music_url = "https://www.iesdouyin.com/web/api/v2/music/list/aweme/"  # 音乐地址
+music_info_url = "https://www.iesdouyin.com/web/api/v2/music/info/"  # 音乐详情
 
 hd = {
     'authority': 'aweme.snssdk.com',
@@ -30,23 +30,15 @@ hd = {
 }
 
 THREADS = 2
-
+# 每次分页数量
 PAGE_NUM = 10
 
+# TODO 后期增加多线程下载
+# 10个线程
 pool = ThreadPoolExecutor(10)
-# HEADERS = {
-#     'authority': 'aweme.snssdk.com',
-#     'connection': 'keep-alive',
-#     'accept-encoding': 'gzip, deflate, br',
-#     'accept-language': 'zh-CN,zh;q=0.9',
-#     'pragma': 'no-cache',
-#     'cache-control': 'no-cache',
-#     'upgrade-insecure-requests': '1',
-#     'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) '
-#                   'Version/13.0.3 Mobile/15E148 Safari/604.1'
-# }
 
 HEADERS = {
+    'authority': 'aweme.snssdk.com',
     'accept-encoding': 'gzip, deflate, br',
     'accept-language': 'zh-CN,zh;q=0.9',
     'pragma': 'no-cache',
@@ -167,10 +159,10 @@ class DouYinCrawler:
 
         # for url in self.video:
         #     self.download_share_videos(url)
-        # for url in self.numbers:
-        #     self.download_user_videos(url)
-        for url in self.challenges:
-            self.download_challenge_videos(url)
+        for url in self.numbers:
+            self.download_user_videos(url)
+        # for url in self.challenges:
+        #     self.download_challenge_videos(url)
         # for url in self.musics:
         #     self.download_music_videos(url)
         return
