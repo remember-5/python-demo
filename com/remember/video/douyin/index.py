@@ -59,8 +59,8 @@ HEADERS = {
 }
 
 
-def get_dy_url_id(url):
-    return url.split("?")[0].split("/")[-1]
+def get_dy_url_id(url, char="?"):
+    return url.split(char)[0].split("/")[-1]
 
 
 def generate_signature(uid):
@@ -167,10 +167,10 @@ class DouYinCrawler:
 
         # for url in self.video:
         #     self.download_share_videos(url)
-        for url in self.numbers:
-            self.download_user_videos(url)
-        # for url in self.challenges:
-        #     self.download_challenge_videos(url)
+        # for url in self.numbers:
+        #     self.download_user_videos(url)
+        for url in self.challenges:
+            self.download_challenge_videos(url)
         # for url in self.musics:
         #     self.download_music_videos(url)
         return
@@ -227,9 +227,10 @@ class DouYinCrawler:
                 "dytk": "",
             }, allow_redirects=False).text.replace("\n", "")
             post_data = json.loads(content)
+            print(post_data)
             if len(post_data['aweme_list']) > 0:
                 break
-            time.sleep(1)
+            time.sleep(2)
 
         print("获取分页数据成功")
         max_cursor = post_data['max_cursor']
@@ -282,12 +283,13 @@ class DouYinCrawler:
         :param _count: 视频分页数量
         :return:
         """
-        challenge_id = get_dy_url_id(url)
+        challenge_id = get_dy_url_id(url, "/?")
 
         challenge_info = requests.get(url=challenge_info_url, params={
             "ch_id": str(challenge_id)
         }).json()
 
+        print(challenge_info)
         # 总数量
         user_count = challenge_info['ch_info']['user_count']
         cursor = 0
@@ -303,7 +305,7 @@ class DouYinCrawler:
             "_signature": generate_signature(str(challenge_id))
         }).json()
         for x in data['aweme_list']:
-            download(x['video']['play_addr']['url_list'][0], x['aweme_id'])
+            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'])
 
         if _count <= user_count:
             _count += PAGE_NUM
@@ -334,7 +336,7 @@ class DouYinCrawler:
         }).json()
 
         for x in data['aweme_list']:
-            download(x['video']['play_addr']['url_list'][0], x['aweme_id'])
+            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'])
 
         if data['has_more']:
             _count += PAGE_NUM
