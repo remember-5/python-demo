@@ -157,14 +157,14 @@ class DouYinCrawler:
         #     worker.daemon = True
         #     worker.start()
 
-        # for url in self.video:
-        #     self.download_share_videos(url)
+        for url in self.video:
+            self.download_share_videos(url)
         for url in self.numbers:
             self.download_user_videos(url)
-        # for url in self.challenges:
-        #     self.download_challenge_videos(url)
-        # for url in self.musics:
-        #     self.download_music_videos(url)
+        for url in self.challenges:
+            self.download_challenge_videos(url)
+        for url in self.musics:
+            self.download_music_videos(url)
         return
 
     def download_share_videos(self, url):
@@ -173,7 +173,7 @@ class DouYinCrawler:
         :param url: 视频地址
         """
         # 从url中取出视频的id
-        video_id = get_dy_url_id(url)
+        video_id = get_dy_url_id(url, "/?")
 
         data = requests.get(url=ies_url, params={"item_ids": video_id, "dytk": ""}).json()
         play_url = data['item_list'][0]['video']['play_addr']['url_list'][0].replace('playwm', "play")
