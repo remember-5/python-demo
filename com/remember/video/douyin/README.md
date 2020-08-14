@@ -14,6 +14,7 @@
 
 
 ## 依赖包
+需要安装node，python3
 requests
 
 ## FAQ
