@@ -1,0 +1,2 @@
+webpackJsonp([138],{BIVh:function(e,t,r){"use strict";Object.defineProperty(t,"__esModule",{value:!0});var n={props:{src:{type:String,default:""}},mounted:function(){var e=document.createElement("script");e.type="text/javascript",e.src=this.src,this.$refs.remote.appendChild(e)}},s=r("W5g0"),c=Object(s.a)(n,function(){var e=this.$createElement;return(this._self._c||e)("div",{ref:"remote"})},[],!1,null,null,null);t.default=c.exports}});
+//# sourceMappingURL=138.c35c99ddefe3377284b6.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/67.6242281a6798d590857b.js","sources":["webpack:///./src/common/data/amapIdMapServerId.js"],"sourcesContent":["//高德地块id 映射到 服务端下发 地块id\r\nconst amapIdMapServerId={\r\n\t310151: '310230',\r\n}\r\nexport default amapIdMapServerId;\n\n\n// WEBPACK FOOTER //\n// ./src/common/data/amapIdMapServerId.js"],"mappings":"AAIA","sourceRoot":""}
