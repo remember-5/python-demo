@@ -1,9 +1,12 @@
 import requests
+import sys
+
 
 if __name__ == '__main__':
     # base_url = "https://v.douyin.com/J6bwPep/"
     # base_url = "https://v.douyin.com/J6bwedp/"
-    base_url = "https://v.douyin.com/J6gagpx/ "
+    # base_url = "https://v.douyin.com/ekcnNt8/"
+    base_url = sys.argv[1]
     play_id = requests.get(base_url, allow_redirects=False).headers['location'].split("/?")[0].split("/")[-1]
     data = requests.get("https://www.iesdouyin.com/web/api/v2/aweme/iteminfo/?item_ids={}&dytk=".format(play_id))
     real_url = data.json()['item_list'][0]['video']['play_addr']['url_list'][0].replace("playwm", "play")
