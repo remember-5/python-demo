@@ -1,16 +1,18 @@
+import random
+import time
 from concurrent.futures.thread import ThreadPoolExecutor
 
+# 创建线程池
 pool = ThreadPoolExecutor(10)
 
 
 def foo(name):
+    time.sleep(random.randint(1, 10))
     print("hello {}".format(name))
 
 
+
 if __name__ == '__main__':
-    pool.submit(foo,"wangjiahao1")
-    pool.submit(foo,"wangjiahao2")
-    pool.submit(foo,"wangjiahao3")
-    pool.submit(foo,"wangjiahao4")
-    pool.submit(foo,"wangjiahao5")
-    pool.submit(foo,"wangjiahao6")
+    # 执行方法
+    for i in range(1, 11):
+        pool.submit(foo, "wangjiahao" + str(i))
