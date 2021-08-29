@@ -8,7 +8,7 @@ print(array)
 
 
 print("number of dim", array.ndim) # 维度
-print("shape :", array.shape) #行和列
+print("shape :", array.shape)  # 行和列
 print("size: ", array.size)
 
 
