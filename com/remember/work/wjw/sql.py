@@ -97,6 +97,7 @@ class GenerateTime:
         date = time.strftime("%Y-%m-%d %H:%M:%S", date_touple)  # 将时间元组转成格式化字符串（1976-05-21）
         return date
 
+
 def generate_date(beginDate, endDate, index):
     date_list = []
     for i in range(0, index):

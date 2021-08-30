@@ -11,7 +11,6 @@ def foo(name):
     print("hello {}".format(name))
 
 
-
 if __name__ == '__main__':
     # 执行方法
     for i in range(1, 11):

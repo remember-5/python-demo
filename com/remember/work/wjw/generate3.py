@@ -128,12 +128,12 @@ def exec_sql(description, method, param, datetime):
 
 
 def do_search(datetime):
-    param = search_word[random.randint(0, len(search_word)-1)]
+    param = search_word[random.randint(0, len(search_word) - 1)]
     exec_sql(desc_list[0], method_list[0], param, generate_sql_datetime(datetime))
 
 
 def do_details(datetime):
-    param = random.choices(hospital_list,hospital_list_weights)[0]['name']
+    param = random.choices(hospital_list, hospital_list_weights)[0]['name']
     exec_sql(desc_list[1], method_list[1], param, generate_sql_datetime(datetime))
 
 
@@ -159,7 +159,7 @@ def exec_by_date_list(date_list):
         datetime = GenerateTime(a1, a2).generate_datetime()
         exec_sql(desc_list[2], method_list[2], "", datetime)  # 生成访问首页记录
 
-        for i in range(0,random.randint(2, 10)):
+        for i in range(0, random.randint(2, 10)):
             do_search(datetime)  # 生成搜索记录
             do_details(datetime)  # 生成详情记录
             do_navigation(datetime)  # 生成导航记录
