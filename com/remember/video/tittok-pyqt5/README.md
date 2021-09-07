@@ -1,3 +1,13 @@
+# designer
+
+转换命令
+```shell
+pyuic5 -o qt1.py qt1.ui
+```
+
+
+
+
 # PyQt5程序->DMG
 
 假设PyQt5项目的目录结构如下： 

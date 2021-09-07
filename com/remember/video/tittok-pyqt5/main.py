@@ -1,9 +1,10 @@
 # coding=utf-8
+import os
 import sys
 import re
 import requests
 from requests.exceptions import MissingSchema
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox, QFileDialog
 
 import qt1
 
@@ -21,12 +22,14 @@ my_windows = MyWindows()  # 实例化对象
 my_windows.show()  # 显示窗口
 
 pattern = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')  # 匹配模式
+copy_url = ''
+save_path = ''
 
 
 def download(url, play_id):
     try:
         r = requests.get(url, stream=True)
-        with open('{}.mp4'.format(play_id), "wb") as mp4:
+        with open('{}/{}.mp4'.format(save_path, play_id), "wb") as mp4:
             for chunk in r.iter_content(chunk_size=1024 * 1024):
                 if chunk:
                     mp4.write(chunk)
@@ -58,7 +61,6 @@ def get_real_download_url(base_url):
 
 
 ####################### button click #########################
-copy_url = ''
 
 
 def download_btn_click():
@@ -67,7 +69,11 @@ def download_btn_click():
     """
     url, play_id = real_url_btn_click()
     if url is not None and play_id is not None:
-        download(url, play_id)
+        if save_path is None or save_path == '':
+            msg_box = QMessageBox(QMessageBox.Warning, '警告', '请先设置保存路径!')
+            msg_box.exec_()
+        else:
+            download(url, play_id)
 
 
 def real_url_btn_click():
@@ -91,6 +97,7 @@ def real_url_btn_click():
     else:
         msg_box = QMessageBox(QMessageBox.Warning, '警告', '需要给我个链接才能转换哦')
         msg_box.exec_()
+        return None, None
 
 
 def copy_btn_click():
@@ -101,8 +108,18 @@ def copy_btn_click():
     clipboard.setText(copy_url)
 
 
+def save_path_click():
+    """
+    选择文件夹
+    """
+    global save_path
+    save_path = QFileDialog.getExistingDirectory(my_windows, "选择文件夹", "/")
+    my_windows.savePathTextBrowser.setText(save_path)
+
+
 my_windows.download_btn.clicked.connect(download_btn_click)
 my_windows.real_url_btn.clicked.connect(real_url_btn_click)
 my_windows.copy_btn.clicked.connect(copy_btn_click)
+my_windows.save_path_btn.clicked.connect(save_path_click)
 
 sys.exit(app.exec_())

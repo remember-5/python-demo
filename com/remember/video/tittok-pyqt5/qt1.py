@@ -14,34 +14,40 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(449, 604)
+        MainWindow.resize(538, 640)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.download_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.download_btn.setGeometry(QtCore.QRect(20, 330, 113, 32))
+        self.download_btn.setGeometry(QtCore.QRect(150, 330, 113, 32))
         self.download_btn.setObjectName("download_btn")
         self.label = QtWidgets.QLabel(self.centralwidget)
         self.label.setGeometry(QtCore.QRect(20, 20, 90, 40))
         self.label.setObjectName("label")
         self.real_url_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.real_url_btn.setGeometry(QtCore.QRect(140, 330, 113, 32))
+        self.real_url_btn.setGeometry(QtCore.QRect(280, 330, 113, 32))
         self.real_url_btn.setObjectName("real_url_btn")
         self.copy_btn = QtWidgets.QPushButton(self.centralwidget)
-        self.copy_btn.setGeometry(QtCore.QRect(260, 330, 113, 32))
+        self.copy_btn.setGeometry(QtCore.QRect(400, 330, 113, 32))
         self.copy_btn.setObjectName("copy_btn")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(20, 150, 90, 40))
         self.label_2.setObjectName("label_2")
         self.real_url = QtWidgets.QTextEdit(self.centralwidget)
-        self.real_url.setGeometry(QtCore.QRect(20, 190, 400, 130))
+        self.real_url.setGeometry(QtCore.QRect(20, 190, 500, 130))
         self.real_url.setObjectName("real_url")
         self.textBrowser = QtWidgets.QTextBrowser(self.centralwidget)
-        self.textBrowser.setGeometry(QtCore.QRect(20, 370, 400, 170))
+        self.textBrowser.setGeometry(QtCore.QRect(20, 400, 501, 191))
         self.textBrowser.setObjectName("textBrowser")
         self.share_url = QtWidgets.QLineEdit(self.centralwidget)
-        self.share_url.setGeometry(QtCore.QRect(20, 60, 400, 90))
+        self.share_url.setGeometry(QtCore.QRect(20, 60, 500, 90))
         self.share_url.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.share_url.setObjectName("share_url")
+        self.save_path_btn = QtWidgets.QPushButton(self.centralwidget)
+        self.save_path_btn.setGeometry(QtCore.QRect(20, 330, 113, 32))
+        self.save_path_btn.setObjectName("save_path_btn")
+        self.savePathTextBrowser = QtWidgets.QTextBrowser(self.centralwidget)
+        self.savePathTextBrowser.setGeometry(QtCore.QRect(20, 360, 501, 31))
+        self.savePathTextBrowser.setObjectName("savePathTextBrowser")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -62,10 +68,13 @@ class Ui_MainWindow(object):
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'.AppleSystemUIFont\'; font-size:13pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">在分享处输入抖音的链接，比如</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">使用说明：</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">1. 请先设置&quot;保存路径&quot;</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">2. 在分享处输入抖音的链接，比如</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#fc0107;\">8.46 caA:/ 风来了，照顾好自己，以后没有晚安和早安了。%海绵宝宝 %派大星   https://v.douyin.com/d66d8mY/ 复製此lian接，打开Dou音搜索，値接观看视频！</span></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">或者</p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" color:#fc0107;\">https://v.douyin.com/d66d8mY/ </span></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">然后点击\'下载\' 即可下载到本目录中</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">点击\'获取真实下载链接\'即可获取无水印视频到真实链接</p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">点击\'复制下载链接\'即可复制到粘贴板</p></body></html>"))
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">3. 然后点击\'下载\' 即可下载到本目录中</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">4. 点击\'获取真实下载链接\'即可获取无水印视频到真实链接</p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">5. 点击\'复制下载链接\'即可复制到粘贴板</p></body></html>"))
+        self.save_path_btn.setText(_translate("MainWindow", "保存路径"))
