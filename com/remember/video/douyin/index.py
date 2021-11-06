@@ -23,6 +23,8 @@ challenge_info_url = "https://www.iesdouyin.com/web/api/v2/challenge/info/"  # �
 music_url = "https://www.iesdouyin.com/web/api/v2/music/list/aweme/"  # 音乐地址
 music_info_url = "https://www.iesdouyin.com/web/api/v2/music/info/"  # 音乐详情
 
+save_path = '/Volumes/Untitled/tiktok/'  # 保存视频路径
+
 hd = {
     'authority': 'aweme.snssdk.com',
     'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, '
@@ -86,16 +88,15 @@ def download(url=None, video_id=None, save_path=None):
     :param save_path: 保存路径
     :return:
     """
-    # TODO 后续增加保存路径
-    current_folder = os.path.abspath(os.path.dirname(os.getcwd()))
-    target_folder = os.path.join(current_folder, 'download/%s.mp4' % video_id)
+    target_folder = os.path.abspath(save_path + '%s.mp4' % video_id)
+    print("下载地址 {url}".format(url=url))
     if not os.path.exists(target_folder):
-        video_url = requests.get(url=url, headers=hd, allow_redirects=False).headers['location']
+        # video_url = requests.get(url=url, headers=hd, allow_redirects=False).headers['location']
 
         print("开始下载", video_id)
-        r = requests.get(video_url, stream=True)
+        r = requests.get(url, stream=True)
 
-        with open('../download/{}.mp4'.format(video_id), "wb") as mp4:
+        with open(save_path + '{}.mp4'.format(video_id), "wb") as mp4:
             for chunk in r.iter_content(chunk_size=1024 * 1024):
                 if chunk:
                     mp4.write(chunk)
@@ -177,7 +178,7 @@ class DouYinCrawler:
 
         data = requests.get(url=ies_url, params={"item_ids": video_id, "dytk": ""}).json()
         play_url = data['item_list'][0]['video']['play_addr']['url_list'][0].replace('playwm', "play")
-        download(play_url, video_id)
+        download(play_url, video_id, save_path)
 
     def download_user_videos(self, url, _max_cursor=0):
         """
@@ -222,14 +223,14 @@ class DouYinCrawler:
             print(post_data)
             if len(post_data['aweme_list']) > 0:
                 break
-            time.sleep(2)
+            time.sleep(3)
 
         print("获取分页数据成功")
         max_cursor = post_data['max_cursor']
         print("最新_cursor", max_cursor)
         for x in post_data['aweme_list']:
             video_id = x['aweme_id']
-            download(x['video']['play_addr']['url_list'][0], video_id)
+            download(x['video']['play_addr']['url_list'][0], video_id, save_path)
 
         if _max_cursor != max_cursor:
             self.download_user_post(sec_uid, _signature, PAGE_NUM, _max_cursor)
@@ -263,7 +264,7 @@ class DouYinCrawler:
         print("最新_cursor", max_cursor)
         for x in post_data['aweme_list']:
             video_id = x['aweme_id']
-            download(x['video']['play_addr']['url_list'][0], video_id)
+            download(x['video']['play_addr']['url_list'][0], video_id, save_path)
 
         if _max_cursor != max_cursor:
             self.download_user_like(sec_uid, _signature, PAGE_NUM, _max_cursor)
@@ -297,7 +298,7 @@ class DouYinCrawler:
             "_signature": generate_signature(str(challenge_id))
         }).json()
         for x in data['aweme_list']:
-            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'])
+            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'], save_path)
 
         if _count <= user_count:
             _count += PAGE_NUM
@@ -328,7 +329,7 @@ class DouYinCrawler:
         }).json()
 
         for x in data['aweme_list']:
-            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'])
+            download(x['video']['play_addr']['url_list'][0].replace('playwm', "play"), x['aweme_id'], save_path)
 
         if data['has_more']:
             _count += PAGE_NUM
