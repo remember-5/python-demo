@@ -15,14 +15,10 @@ xlwt==1.3.0
 you-get==0.4.1456
 browsermob-proxy==0.8.0
 tqdm==4.48.2
-# 机器学习
 numpy==1.21.2
 pandas==1.3.2
 tensorflow==2.5.1
-# PyQt5
 PyQt5==5.15.4
 pyqt5-tools==5.15.4.3.2
-# pyqt5打包
 pyinstaller==4.5.1
-# 通过可视化界面使用pyinstaller
 auto-py-to-exe==2.10.0
