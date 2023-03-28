@@ -1,20 +1,15 @@
 import requests
-from bs4 import BeautifulSoup
+from lxml import etree
 
-base_url = "http://tools.2345.com"
-baijiaxing_url = "http://tools.2345.com/baijx/"
+base_url = "https://test.ustc.edu.cn/"
 
 
 def get_url(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        return BeautifulSoup(response.content, "html.parser")
+    res = requests.get(url)
+    if res.status_code == 200:
+        x = etree.HTML(res.content)
+        print(type(x))
 
 
-def get_surname_info(name, url):
-    text = get_url(url).find_all(attrs="conm_box dectxt")[0].text
-    print(text)
-
-
-for a in get_url(baijiaxing_url).find(id="xdiv").find_all("a"):
-    get_surname_info(a.contents[0], base_url + a['href'])
+if __name__ == '__main__':
+    get_url(base_url)
