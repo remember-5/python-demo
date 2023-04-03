@@ -34,17 +34,24 @@ class M3u8Download:
     """
     :param url: 完整的m3u8文件链接 如"https://www.bilibili.com/example/index.m3u8"
     :param name: 保存m3u8的文件名 如"index"
+    :param file_save_path 保存路径
     :param max_workers: 多线程最大线程数
     :param num_retries: 重试次数
     :param base64_key: base64编码的字符串
     """
 
-    def __init__(self, url, name, max_workers=64, num_retries=5, base64_key=None):
+    def __init__(self, url, name, file_save_path=None, max_workers=64, num_retries=5, base64_key=None):
         self._url = url
         self._name = name
         self._max_workers = max_workers
         self._num_retries = num_retries
-        self._file_path = os.path.join('/Users/wangjiahao/Downloads/test', self._name)
+        # 判断是否存在目录
+        if file_save_path is None:
+            self._file_path = os.path.join(os.getcwd(), self._name)
+        else:
+            if os.path.isdir(file_save_path) is False:
+                os.mkdir(file_save_path)
+            self._file_path = os.path.join(file_save_path, self._name)
         self._front_url = None
         self._ts_url_list = []
         self._success_sum = 0
@@ -201,12 +208,14 @@ class M3u8Download:
 if __name__ == "__main__":
     url_list = input("输入url，若同时输入多个url时要用空格分开：").split()
     name_list = input("输入name，若同时输入多个name要用空格分开：").split()
+    save_path = input("输入save_path，保存的路径只可以有一个").split()
     # 如果M3U8_URL的数量 ≠ SAVE_NAME的数量
     # 下载一部电视剧时，只需要输入一个name就可以了
     sta = len(url_list) == len(name_list)
     for i, u in enumerate(url_list):
         M3u8Download(u,
                      name_list[i] if sta else f"{name_list[0]}{i + 1:02}",
+                     None if len(save_path) == 0 else save_path[0],
                      max_workers=64,
                      num_retries=10,
                      # base64_key='5N12sDHDVcx1Hqnagn4NJg=='
