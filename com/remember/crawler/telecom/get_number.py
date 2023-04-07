@@ -1,63 +1,75 @@
 # import time
 import smtplib
+import threading
+import time
 from email.mime.text import MIMEText
 from email.header import Header
 import redis
 
-# import sqlite_utils
+from concurrent.futures import ThreadPoolExecutor, ALL_COMPLETED, wait
+
+thread_pool = ThreadPoolExecutor(max_workers=5, thread_name_prefix="test_")
+import sqlite_utils
 import requests
 
-# db = sqlite_utils.Database("my.db")
-r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='123456')
 
 
-# def init_table():
-#     if db["telecom_number"].exists() is False:
-#         db.execute("""
-#         create table telecom_number
-#         (
-#             number TEXT
-#         );
-#         """)
-#         db.execute("""
-#         create unique index telecom_number_number_uindex on telecom_number (number)
-#         """)
+# r = redis.Redis(host='127.0.0.1', port=6379, db=0, password='123456')
+
+
+def init_table():
+    db = sqlite_utils.Database("my.db")
+    if db["telecom_number"].exists() is False:
+        db.execute("""
+        create table telecom_number
+        (
+            number TEXT
+        );
+        """)
+        db.execute("""
+            create unique index telecom_number_number_uindex on telecom_number (number);
+        """)
 
 
 def get_number():
-    url = "https://act.aisulin.cn/activity/getnumber"
+    db = sqlite_utils.Database("my.db")
+    while True:
+        print('thread name:', threading.current_thread().name)
+        url = "https://act.aisulin.cn/activity/getnumber"
 
-    payload = '{"cid":"1","type":"1","page":1,"pageSize":"10000"}'
-    headers = {
-        'Accept': 'application/json, text/javascript, */*; q=0.01',
-        'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
-        'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive',
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Cookie': 'JSESSIONID=35E5A5399BF22BFDB895F5A836195BAF',
-        'Origin': 'https://act.aisulin.cn',
-        'Pragma': 'no-cache',
-        'Referer': 'https://act.aisulin.cn/activity/savecardOrder?cid=1',
-        'Sec-Fetch-Dest': 'empty',
-        'Sec-Fetch-Mode': 'cors',
-        'Sec-Fetch-Site': 'same-origin',
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
-        'X-Requested-With': 'XMLHttpRequest'
-    }
+        payload = '{"cid":"1","type":"1","page":1,"pageSize":"10000"}'
+        headers = {
+            'Accept': 'application/json, text/javascript, */*; q=0.01',
+            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+            'Cache-Control': 'no-cache',
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Cookie': 'JSESSIONID=35E5A5399BF22BFDB895F5A836195BAF',
+            'Origin': 'https://act.aisulin.cn',
+            'Pragma': 'no-cache',
+            'Referer': 'https://act.aisulin.cn/activity/savecardOrder?cid=1',
+            'Sec-Fetch-Dest': 'empty',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-origin',
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1',
+            'X-Requested-With': 'XMLHttpRequest'
+        }
 
-    response = requests.request("POST", url, headers=headers, data=payload)
+        response = requests.request("POST", url, headers=headers, data=payload)
 
-    if response.status_code == 200:
-        for x in response.json()['data']:
-            try:
-                number = x['number']
-                # db['telecom_number'].insert({
-                #     'number': number
-                # })
-                r.sadd('telecom_number', number)
-            except Exception:
-                print('号码已经存在', number)
-                pass
+        if response.status_code == 200:
+            for x in response.json()['data']:
+                try:
+                    number = x['number']
+                    db['telecom_number'].insert({
+                        'number': number
+                    })
+                    print('保存号码', number)
+                    # r.sadd('telecom_number', number)
+                except Exception:
+                    # print('号码已经存在', number)
+                    pass
+            time.sleep(1)
 
 
 def send_email(phone):
@@ -91,8 +103,8 @@ def send_email(phone):
 
 
 if __name__ == '__main__':
-    # init_table()
-    get_number()
-    # for x in range(100):
-    #     get_number()
-    #     time.sleep(5)
+    init_table()
+    all_task = []
+    for x in range(5):
+        all_task.append(thread_pool.submit(get_number))
+    wait(all_task, timeout=None, return_when=ALL_COMPLETED)
