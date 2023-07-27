@@ -1,7 +1,9 @@
-import random
 import smtplib
 from email.mime.text import MIMEText
 from email.header import Header
+
+import sqlite_utils
+
 
 def send_email(content):
     smtp = "smtp.qq.com"  # smtp
@@ -33,10 +35,10 @@ def send_email(content):
 
 
 if __name__ == '__main__':
-    content_list = []
-    with open('content.txt', 'r') as file:
-        for line in file:
-            content_list.append(line.strip())
-    item = random.choice(content_list)
-    print(item)
-    send_email(item)
+    db = sqlite_utils.Database("kfc.db")
+    content = db.execute("SELECT * FROM kfc ORDER BY RANDOM() LIMIT 1;")
+    item = content.fetchone()
+    content = item[1]
+    print(content)
+    send_email(content)
+    db.close()
