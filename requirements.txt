@@ -7,4 +7,4 @@ sqlite-utils==3.30
 aria2p==0.11.3
 selenium==4.8.2
 ffmpeg-python==0.2.0
-redis==4.5.1
+redis==4.5.4
