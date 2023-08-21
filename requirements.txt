@@ -8,3 +8,4 @@ aria2p==0.11.3
 selenium==4.8.2
 ffmpeg-python==0.2.0
 redis==4.5.4
+sqlite_utils==3.30
