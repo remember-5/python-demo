@@ -178,6 +178,6 @@ with open("no_file.txt", "r") as f:
     print(f.read())
 
 # Traceback (most recent call last):
-#   File "/Users/wangjiahao/server/github/python-demo/com/remember/basic/try-except.py", line 6, in <module>
+#   File "/Users/wangjiahao/server/github/python-demo/com/remember5/basic/try-except.py", line 6, in <module>
 #     with open("no_file.txt", "r") as f:
 # FileNotFoundError: [Errno 2] No such file or directory: 'no_file.txt'

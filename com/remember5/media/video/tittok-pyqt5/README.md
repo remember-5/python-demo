@@ -20,7 +20,7 @@ pyuic5 -o qt1.py qt1.ui
 使用Pyinstaller将PyQt5程序打包生成APP
 在项目的目录下，执行如下命令：
 ```shell
-pyinstaller -F -w -i icon.icns main.py
+pyinstaller -F -w -i icon.icns hello.py
 ```
 
 执行后，会在项目所在目录下，生成2个文件夹和1个文件：build、dist和main.spec。生成的可执行文件和app文件就在dist目录下。 
@@ -34,7 +34,7 @@ main.spec文件内容如下：
 block_cipher = None
 
 
-a = Analysis(['main.py'],
+a = Analysis(['hello.py'],
              pathex=['项目所在目录'],
              binaries=[],
              datas=[],

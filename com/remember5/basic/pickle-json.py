@@ -41,7 +41,7 @@ data = File("f4.txt", "now", 222)
 #     json.dump(data, f)
 
 # Traceback (most recent call last):
-#   File "/Users/wangjiahao/server/github/python-demo/com/remember/basic/pickle-json.py", line 23, in <module>
+#   File "/Users/wangjiahao/server/github/python-demo/com/remember5/basic/pickle-json.py", line 23, in <module>
 #     data = File("f4.txt", "now", 222)
 # TypeError: File() takes no arguments
 
@@ -130,7 +130,7 @@ data = File("f3.txt", "now", 222)
 #     pickle.dump(data, f)
 
 # Traceback (most recent call last):
-#   File "/Users/wangjiahao/server/github/python-demo/com/remember/basic/pickle-json.py", line 24, in <module>
+#   File "/Users/wangjiahao/server/github/python-demo/com/remember5/basic/pickle-json.py", line 24, in <module>
 #     pickle.dump(data, f)
 # TypeError: cannot pickle '_io.TextIOWrapper' object
 

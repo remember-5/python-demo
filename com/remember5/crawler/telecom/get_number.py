@@ -37,7 +37,7 @@ def get_number():
         print('thread name:', threading.current_thread().name)
         url = "https://act.aisulin.cn/activity/getnumber"
 
-        payload = '{"cid":"1","type":"1","page":1,"pageSize":"10000"}'
+        payload = '{"cid":"0","type":"1","page":1,"pageSize":"10000"}'
         headers = {
             'Accept': 'application/json, text/javascript, */*; q=0.01',
             'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
