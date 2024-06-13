@@ -1,6 +1,6 @@
 flask==2.3.2
 lxml==4.9.2
-requests==2.31.0
+requests==2.32.2
 pandas==1.5.3
 numpy==1.24.2
 sqlite-utils==3.36
