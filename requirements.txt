@@ -3,9 +3,13 @@ lxml==4.9.2
 requests==2.31.0
 pandas==1.5.3
 numpy==1.24.2
-sqlite-utils==3.30
+sqlite-utils==3.36
 aria2p==0.11.3
 selenium==4.8.2
 ffmpeg-python==0.2.0
 redis==4.5.4
 sqlite_utils==3.30
+pymongo==4.6.3
+mysql-connector-python==8.3.0
+SQLAlchemy==2.0.30
+alembic==1.13.1
