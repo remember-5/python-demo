@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "python-demo"
+version = "0.1.0"
+description = ""
+authors = ["wangjiahao <1332661444@qq.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">3.10,<3.13"
+pymysql = "^1.1.1" # 连接mysql
+pandas = "^2.2.3" # 数据解析存储
+openpyxl = "^3.1.5" # 生成excel
+mysql-connector-python = "^9.1.0" # 连接mysql
+sqlparse = "^0.5.3" # sql解析
+python-docx = "^1.1.2" # 生成doc
+click = "^8.1.8" # 命令行参数神器
+colorama = "^0.4.6" # 彩色的print
+pyinstaller = "^6.11.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

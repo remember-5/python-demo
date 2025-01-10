@@ -1,0 +1,3 @@
+# Install
+
+`poetry add colorama`
