@@ -6,8 +6,8 @@ Telegraph Image Downloader
 
 **Install dependencies**
 
-1. use pip `pip install aiohttp beautifulsoup4 tqdm aiofiles pyyaml`
-2. use poetry `poetry add aiohttp beautifulsoup4 tqdm aiofiles pyyaml`
+1. use pip `pip install aiohttp beautifulsoup4 tqdm aiofiles pyyaml loguru`
+2. use poetry `poetry add aiohttp beautifulsoup4 tqdm aiofiles pyyaml loguru`
 
 **Configuration**
 

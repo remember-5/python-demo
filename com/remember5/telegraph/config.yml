@@ -8,3 +8,9 @@ max_concurrent_downloads: 5
 # Maximum number of retries
 max_retries: 3
 
+# Logging
+log_file: "downloads.log"
+# Log maximum size in MB
+max_log_size: 10
+# Log backup count
+log_backup_count: 5

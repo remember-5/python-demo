@@ -21,6 +21,8 @@ beautifulsoup4 = "^4.12.3"
 tqdm = "^4.67.1"
 aiofiles = "^24.1.0"
 pyyaml = "^6.0.2"
+telethon = "^1.38.1"
+loguru = "^0.7.3"
 
 
 [build-system]
