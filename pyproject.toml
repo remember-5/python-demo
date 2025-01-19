@@ -16,6 +16,11 @@ python-docx = "^1.1.2" # 生成doc
 click = "^8.1.8" # 命令行参数神器
 colorama = "^0.4.6" # 彩色的print
 pyinstaller = "^6.11.1"
+aiohttp = "^3.11.11"
+beautifulsoup4 = "^4.12.3"
+tqdm = "^4.67.1"
+aiofiles = "^24.1.0"
+pyyaml = "^6.0.2"
 
 
 [build-system]

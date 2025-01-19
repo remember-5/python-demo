@@ -1,0 +1,10 @@
+# Download settings
+download_base_path: "/Users/wangjiahao/Downloads/telegraph_download"
+# Download
+urls_file: "urls.txt"
+
+# Maximum number of concurrent downloads
+max_concurrent_downloads: 5
+# Maximum number of retries
+max_retries: 3
+

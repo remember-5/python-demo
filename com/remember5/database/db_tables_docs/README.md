@@ -1,3 +1,7 @@
+# Indroduction
+
+Read SQL file or database and generate Excel and Word documents
+
 # Install 
 
 `poetry add pymysql pandas openpyxl python-docx sqlparse`
