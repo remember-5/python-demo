@@ -32,7 +32,7 @@ ssh更安全,支持lfs大文件,侵入低
 
 
 # Usage
-在各个仓库中加入ssh证书,并设置`repo_config.json`
+配置`repo_config.json` ,信息如下
 
 ```json
 {
