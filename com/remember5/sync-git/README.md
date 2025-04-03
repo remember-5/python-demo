@@ -26,7 +26,7 @@ ssh更安全,支持lfs大文件,侵入低
 # Requirements
 - python3.10 (require)
 - git (require) 自行安装
-- ssh证书 (require,强烈建议新建证书) `ssh-keygen -t rsa -b 4096 -f ./transfer_rsa_key -C "xxx@qq.com"`
+- ssh证书,在每个托管平台都要配置 (require,强烈建议新建证书) `ssh-keygen -t rsa -b 4096 -f ./transfer_rsa_key -C "xxx@qq.com"`
 - git-lfs(https://git-lfs.com 存在大文件使用时，需要下载大文件)
 - 请确保运行的机器能同时访问两个git托管平台
 - 请确保ssh有权限读写仓库
