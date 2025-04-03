@@ -1,0 +1,11 @@
+{
+  "file_path": "/Users/wangjiahao/Downloads/sync-git/",
+  "repositories": [
+    {
+      "branches": ["main","dev"],
+      "public_repo": "ssh://git@gitlab.remember5.top:2222/sh-zhiyun/vue-cli-template.git",
+      "private_repo": "ssh://git@gitlab1.remember5.top:2222/sh-zhiyun/vue-cli-template.git",
+      "ssh_key_path": "/Users/wangjiahao/Downloads/transfer_rsa_key"
+    }
+  ]
+}
