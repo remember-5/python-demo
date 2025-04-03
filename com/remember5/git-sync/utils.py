@@ -51,8 +51,18 @@ def run_git_command(args: List[str], error_msg: str, config: Dict[str, Any] = No
                 # 处理SSH认证
                 if auth_type == 'ssh' and url.startswith(('ssh://', 'git@')):
                     key_path = auth_config.get('key_path')
+                    ssh_password = auth_config.get('password', '')
+                    
                     if key_path and os.path.exists(key_path):
-                        os.environ['GIT_SSH_COMMAND'] = f'ssh -i {key_path} -o StrictHostKeyChecking=no'
+                        ssh_command = f'ssh -i {key_path} -o StrictHostKeyChecking=no'
+                        
+                        # 如果提供了SSH密钥密码，使用sshpass处理密码
+                        if ssh_password:
+                            # 设置环境变量，避免命令行中出现明文密码
+                            os.environ['SSHPASS'] = ssh_password
+                            ssh_command = f'sshpass -e {ssh_command}'
+                        
+                        os.environ['GIT_SSH_COMMAND'] = ssh_command
                 
                 # 处理HTTP认证
                 elif auth_type == 'http' and url.startswith(('http://', 'https://')):
