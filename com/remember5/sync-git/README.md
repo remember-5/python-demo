@@ -13,7 +13,9 @@ ssh更安全,支持lfs大文件,侵入低
 # TODO
 - [x] 单独设置ssh_key_path
 - [x] 删掉name字段，采用public_repo的后缀name
+- [ ] 完善log打印信息
 - [ ] 拆分一个工具类出来，方便调用，main方法只保留核心代码
+- [ ] 支持多线程
 - [ ] 检测远程仓库是否存在
 - [ ] 支持多仓库同步 
 - [ ] 支持http的模式同步，账号密码写到仓库的信息中
@@ -25,7 +27,7 @@ ssh更安全,支持lfs大文件,侵入低
 - python3.10 (require)
 - git (require) 自行安装
 - ssh证书 (require,强烈建议新建证书) `ssh-keygen -t rsa -b 4096 -f ./transfer_rsa_key -C "xxx@qq.com"`
-- git-lfs(存在大文件使用时，需要下载大文件)
+- git-lfs(https://git-lfs.com 存在大文件使用时，需要下载大文件)
 - 请确保运行的机器能同时访问两个git托管平台
 - 请确保ssh有权限读写仓库
 - 注意,多仓库同步中,项目名不能有重复，否则会异常!!!!! 未来会增加单独路径的支持
