@@ -1,0 +1,33 @@
+{
+  "file_path": "/Users/wangjiahao/Downloads/sync-git/",
+  "check_remote_repo": true,
+  "auth_configs": {
+    "gitlab.remember5.top": {
+      "type": "http",
+      "username": "xxx@qq.com",
+      "password": "xxx",
+      "check_remote_repo": true
+    },
+    "gitlab.com": {
+      "type": "http",
+      "username": "xxx@qq.com",
+      "password": "xxx",
+      "check_remote_repo": false
+    },
+    "github.com": {
+      "type": "ssh",
+      "key_path": "/Users/wangjiahao/Downloads/transfer_rsa_key",
+      "password": "",
+      "check_remote_repo": true
+    }
+  },
+  "repositories": [
+    {
+      "branches": ["main", "test"],
+      "source_repo": "https://gitlab.remember5.top/wangjiahao/sync-git.git",
+      "target_repos": [
+        "https://gitlab.com/wangjiahao0505/git-sync1.git"
+      ]
+    }
+  ]
+}
