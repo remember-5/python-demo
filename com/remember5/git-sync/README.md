@@ -26,7 +26,7 @@
 - 请确保运行的机器能同时访问两个git托管平台
 - 请确保ssh有权限读写仓库
 - 注意,多仓库同步中,项目名不能有重复，否则会异常!!!!! 未来会增加单独路径的支持
-- 注意官方的gitlab如果检测仓库不存在的话，会自动仓库
+- !!!注意官方的gitlab如果检测仓库不存在的话，会自动创建仓库!!!
 
 
 # Usage
@@ -37,7 +37,7 @@
 ```json
 {
   "file_path": "/Users/wangjiahao/Downloads/sync-git/", // git clone 文件路径(填写本机的路径)
-  "check_remote_repo": true, // 全局配置：是否检查远程仓库存在性
+  "check_remote_repo": true, // 全局配置：是否检查远程仓库存在性,!!!注意官方的gitlab如果检测仓库不存在的话，会自动创建仓库!!!
   "auth_configs": { // 认证配置，按域名区分
     "gitlab.remember5.top": { // 域名（可带端口）
       "type": "http", // 认证类型：http 或 ssh
